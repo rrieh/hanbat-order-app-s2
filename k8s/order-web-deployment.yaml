@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: order-web
-          image: <ACR_NAME>.azurecr.io/order-web:PLACEHOLDER
+          image: hanbatdw123.azurecr.io/order-web:183f07d
           ports:
             - containerPort: 80
           livenessProbe:

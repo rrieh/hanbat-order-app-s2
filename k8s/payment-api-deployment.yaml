@@ -19,7 +19,7 @@ spec:
       containers:
         - name: payment-api
           # Phase 3에서 GitHub Actions 가 이 태그를 자동으로 교체합니다
-          image: <ACR_NAME>.azurecr.io/payment-api:PLACEHOLDER
+          image: hanbatdw123.azurecr.io/payment-api:183f07d
           ports:
             - containerPort: 8080
           env:
