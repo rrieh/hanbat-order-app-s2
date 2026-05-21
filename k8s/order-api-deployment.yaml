@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: order-api
-  namespace: hanbat-<본인_GitHub_사용자명>
+  namespace: hanbat-rrieh
   labels:
     app: order-api
 spec:
