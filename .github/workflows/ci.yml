@@ -56,3 +56,28 @@ jobs:
             --image order-web:${{ steps.tag.outputs.TAG }} \
             --image order-web:latest \
             order-web/
+
+      - name: k8s 매니페스트 이미지 태그 업데이트
+        run: |
+          TAG=${{ steps.tag.outputs.TAG }}
+          ACR=${{ secrets.ACR_NAME }}
+
+          sed -i "s|image: .*order-api:.*|image: ${ACR}.azurecr.io/order-api:${TAG}|" \
+            k8s/order-api-deployment.yaml
+
+          sed -i "s|image: .*payment-api:.*|image: ${ACR}.azurecr.io/payment-api:${TAG}|" \
+            k8s/payment-api-deployment.yaml
+
+          sed -i "s|image: .*order-web:.*|image: ${ACR}.azurecr.io/order-web:${TAG}|" \
+            k8s/order-web-deployment.yaml
+
+          echo "=== 업데이트된 태그 확인 ==="
+          grep "image:" k8s/order-api-deployment.yaml
+          grep "image:" k8s/payment-api-deployment.yaml
+          grep "image:" k8s/order-web-deployment.yaml
+
+      - name: 매니페스트 변경사항 자동 커밋
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: update image tags to ${{ steps.tag.outputs.TAG }} [skip ci]"
+          file_pattern: k8s/*.yaml
